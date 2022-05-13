@@ -1,6 +1,10 @@
 <?php
-
+//BBDD
+require '../../includes/config/database.php';
+$db = conectarDB();
+//archivo funciones
 require '../../includes/funciones.php';
+//include templates
 incluirTemplate('header');
 ?>
 
