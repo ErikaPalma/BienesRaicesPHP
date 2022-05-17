@@ -27,9 +27,13 @@ $errores = [];
 
 //Ejecuta el código una vez que el usuario envíe el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "<pre>";
-    var_dump($_POST['titulo']);
-    echo "</pre>";
+    // echo "<pre>";
+    // var_dump($_POST);
+    // echo "</pre>";
+
+    // echo "<pre>";
+    // var_dump($_FILES);
+    // echo "</pre>";
 
     //Sanitizar entrada de datos
     $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
@@ -40,6 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estacionamiento = mysqli_real_escape_string($db, $_POST['estacionamiento']);
     $vendedorId = mysqli_real_escape_string($db, $_POST['vendedorId']);
     $creado = date('Y/m/d');
+    //Asignar files a una variable
+    $imagen = $_FILES['imagen'];
+
 
     if (!$titulo || is_numeric($titulo) || preg_match("/[0-9]/", $titulo)) {
         $errores[] = "Introduce un título válido";
@@ -69,11 +76,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "Introduce un vendedor válido";
     }
 
+    if (!$imagen['name'] || $imagen['error']) {
+        $errores[] = "La imagen es obligatoria";
+    }
+
+    //Validar imagen por tamaño (100kb máx)
+    $medida = 1000 * 1000;
+    if ($imagen['size'] > $medida) {
+        $errores[] = "La imagen es demasiado grande";
+    }
+
     //Si no hay errores, se inserta en la BD
     if (empty($errores)) {
+
+        /*SUBIDA DE ARCHIVOS */
+        //Crear carpeta en la raíz del proyecto
+        $carpetaImagenes = '../../imagenes/';
+        if (!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+        }
+
+        //Generar nombre único para imagen
+        $nombreImagen = md5(uniqid(rand(), true));
+        //Subir la imagen
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen . "jpg");
+
         //Insertar en la BD
-        $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
-    VALUES('$titulo', $precio, '$descripcion', $habitaciones, $wc, $estacionamiento, '$creado', $vendedorId)";
+        $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
+    VALUES('$titulo', $precio, '$nombreImagen', '$descripcion', $habitaciones, $wc, $estacionamiento, '$creado', $vendedorId)";
 
         //Guardar resultado en la BD
         $resultado = mysqli_query($db, $query);
@@ -99,7 +129,7 @@ incluirTemplate('header');
     <?php endforeach; ?>
     <a href="/admin" class="boton boton-verde">Volver</a>
 
-    <form class="formulario" method="POST">
+    <form class="formulario" method="POST" enctype="multipart/form-data">
 
         <fieldset>
             <legend>Información General</legend>
