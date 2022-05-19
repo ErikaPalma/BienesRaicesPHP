@@ -33,5 +33,6 @@
 
             </div>
             <!--.barra-->
+            <?php echo $inicio ? "<h1>Venta de casas y Pisos de Lujo</h1>" : ''; ?>
         </div>
     </header>
