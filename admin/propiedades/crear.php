@@ -109,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = mysqli_query($db, $query);
 
         if ($resultado) {
-            //Si todo ok, redireccionar al usuario
-            header('Location: /admin');
+            //Si todo ok, redireccionar al usuario utilizando query string
+            header('Location: /admin?resultado=1');
         }
     }
 }
