@@ -97,9 +97,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         //Generar nombre único para imagen
-        $nombreImagen = md5(uniqid(rand(), true));
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
         //Subir la imagen
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen . "jpg");
+        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
 
         //Insertar en la BD
         $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
