@@ -26,6 +26,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = mysqli_query($db, $query);
         //Si el num_rows viene a 0, no hay usuario con ese email en la BD
         if ($resultado->num_rows) {
+            //Revisar si la contraseña es correcta
+            $usuario = mysqli_fetch_assoc($resultado);
+
+            //Verificar si la contraseña es correcta. Recibe: password y password hash. Devuelve boolean
+            $auth = password_verify($password, $usuario['password']);
+
+            if ($auth) {
+                //El usuario está autenticado
+            } else {
+                $errores[] = "La contraseña no es correcta";
+            }
         } else {
             $errores[] = "El usuario no existe";
         }
