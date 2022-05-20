@@ -33,13 +33,11 @@ $errores = [];
 
 //Ejecuta el código una vez que el usuario envíe el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // echo "<pre>";
-    // var_dump($_POST);
-    // echo "</pre>";
 
-    // echo "<pre>";
-    // var_dump($_FILES);
-    // echo "</pre>";
+    //Instancia de propiedad
+    $propiedad = new Propiedad($_POST);
+
+    $propiedad->guardar();
 
     //Sanitizar entrada de datos
     $titulo = mysqli_real_escape_string($db, $_POST['titulo']);
@@ -107,10 +105,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Subir la imagen
         move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
 
-        //Insertar en la BD
-        $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) 
-    VALUES('$titulo', $precio, '$nombreImagen', '$descripcion', $habitaciones, $wc, $estacionamiento, '$creado', $vendedorId)";
-
         //Guardar resultado en la BD
         $resultado = mysqli_query($db, $query);
 
@@ -168,7 +162,7 @@ incluirTemplate('header');
 
         <fieldset>
             <legend>Vendedor</legend>
-            <select id="vendedorId" name="vendedorId">
+            <select name="vendedorId">
                 <option value="" disabled selected>--Seleccione un vendedor--</option>
                 <?php while ($row = mysqli_fetch_assoc($resultado)) : ?>
                     <option <?php echo $vendedorId === $row['id']  ? 'selected' : '' ?> value="<?php echo $row['id'] ?>"><?php echo $row['nombre'] . " " . $row['apellido'] ?></option>
