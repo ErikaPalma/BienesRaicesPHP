@@ -1,3 +1,11 @@
+<?php
+//Para que no dé errores por estar definida
+if (!isset($_SESSION)) {
+    //Si no está definida, iniciamos sesión
+    session_start();
+}
+$auth = $_SESSION['login'] ?? false;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +36,9 @@
                         <a href="anuncios.php">Anuncios</a>
                         <a href="blog.php">Blog</a>
                         <a href="contacto.php">Contacto</a>
+                        <?php if ($auth) : ?>
+                            <a href="cerrar-sesion.php">Cerrar sesión</a>
+                        <?php endif; ?>
                     </nav>
                 </div>
 

@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 //Información de la sesión
                 $_SESSION['usuario'] = $usuario['email'];
                 $_SESSION['login'] = true;
+
+                //Si está autenticado, redirigir a admin
+                header('Location: /admin');
             } else {
                 $errores[] = "La contraseña no es correcta";
             }
