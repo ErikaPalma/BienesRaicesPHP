@@ -1,0 +1,21 @@
+{
+    "name": "erika/bienes-raices",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Erika\\BienesRaices\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Erika",
+            "email": "erikapalmasan@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "./classes"
+        }
+    }
+}

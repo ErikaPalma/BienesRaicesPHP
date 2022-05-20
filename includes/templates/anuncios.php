@@ -1,6 +1,5 @@
 <?php
 //Importar conexión (la ruta es relativa al index.php)
-require 'includes/config/database.php';
 $db = conectarDB();
 
 //Consultar
