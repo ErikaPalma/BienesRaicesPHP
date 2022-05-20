@@ -1,4 +1,12 @@
 <?php
+//archivo funciones
+require '../../includes/funciones.php';
+
+$auth = estaAutenticado();
+if (!$auth) {
+    //Si no está autenticado
+    header('Location: /');
+}
 //BBDD
 require '../../includes/config/database.php';
 $db = conectarDB();
@@ -114,8 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-//archivo funciones
-require '../../includes/funciones.php';
+
 //include templates
 incluirTemplate('header');
 ?>

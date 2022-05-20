@@ -34,6 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($auth) {
                 //El usuario está autenticado
+                session_start();
+
+                //Información de la sesión
+                $_SESSION['usuario'] = $usuario['email'];
+                $_SESSION['login'] = true;
             } else {
                 $errores[] = "La contraseña no es correcta";
             }
