@@ -1,14 +1,12 @@
 <?php
 //archivo funciones
-require '../../includes/funciones.php';
+require '../../includes/app.php';
 
-$auth = estaAutenticado();
-if (!$auth) {
-    //Si no está autenticado
-    header('Location: /');
-}
-//BBDD
-require '../../includes/config/database.php';
+use App\Propiedad;
+
+
+estaAutenticado();
+
 $db = conectarDB();
 
 //Consulta para obtener los vendedores
